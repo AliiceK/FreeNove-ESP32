@@ -41,6 +41,13 @@ The extension board has 3 main jobs:
 
 Don't try to draw too much power from those pins. If you connect too many power-hungry components at once, you could damage your board. So I will plug in via USB and use the 3.3V pins to power small sensors.
 
+So now what is the next step ? 
+- Installing the driver that lets your computer talk to your ESP32 board
+
+  What is CH340 ? Your ESP32 communicates with your laptop over USB. But your laptop doesn't automatically know how to interpret those signals. The CH340 is a chip on your board that translates between USB and the ESP32's language. The driver is software that tells your laptop how to work with that chip.
+
+  There are steps listed on the website, ill be posting my own pics here 
+
 
 
 
