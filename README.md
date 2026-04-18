@@ -35,11 +35,11 @@ This is called a pinout table . It will list most importantly the type of the pi
 <img width="474" height="771" alt="image" src="https://github.com/user-attachments/assets/cd8896d1-faea-4320-8144-8945b2911d8b" /> you see the 2 at the bottom on the right side of the label strip ( between  0 & 15 ) --> that's IO2. One of its functions is GPIO — blinking LEDs, reading buttons. No need to memorize these btw.
 
 The extension board has 3 main jobs:
-- Spread out the GPIO pins into the breadboard so you can easily plug wires in (you already saw this in your photo)
+- Spread out the GPIO pins into the breadboard so you can easily plug wires in .
 - Provide power to your components (sensors, LEDs, etc.)
 - Allow external power if USB isn't enough
 
-Don't try to draw too much power from those pins. If you connect too many power-hungry components at once, you could damage your board. So I will plug in via USB and use the 3.3V pins to powwer small sensors.
+Don't try to draw too much power from those pins. If you connect too many power-hungry components at once, you could damage your board. So I will plug in via USB and use the 3.3V pins to power small sensors.
 
 
 
