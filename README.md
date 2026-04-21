@@ -62,7 +62,97 @@ So now what is the next step ?
 - Verify : Compiles your code — checks for errors without uploading.
 - Upload : Sends your code to the ESP32.
 
-  I downloaded the esp32 3.3.8 version since the 3.0.7 version timed out 
+  I downloaded the esp32 3.3.8 version since the 3.0.7 version timed out
+
+4/20 :
+
+  The first piece of code is the LEB Blink Code which is teh following :
+#define LED_BUILTIN 2
+  void setup() {
+  pinMode(LED_BUILTIN, OUTPUT);
+}
+
+This runs one time when the board powers on or resets. It tells pin 2 to act as an output (sending power out), not an input (reading a signal).
+
+Then we hace the second piece of code :
+
+loop() — runs forever in a cycle
+  void loop() {
+  digitalWrite(LED_BUILTIN, HIGH);  // LED OFF
+  delay(1000);                      // wait 1 second
+  digitalWrite(LED_BUILTIN, LOW);   // LED ON
+  delay(1000);                      // wait 1 second
+}
+What happens :digitalWrite(HIGH) Sends voltage to pin 2 → LED turns OFF
+              delay(1000)Waits 1 second
+              digitalWrite(LOW) Cuts voltage to pin 2 → LED turns ON
+              delay(1000) Waits 1 second
+              
+It was a little confusing at me first why if digital Write is High, the LED truns off, and when LOW it turns ON. This is when Current Flows comes in : Current ONLY flows when there is a voltage difference between 3 points - from high to low.
+
+How this specific circuit is wired (Active Low):
+3.3V (always on) → Resistor → LED → GPIO Pin 2
+The LED sits between a constant 3.3V source and GPIO pin 2.
+
+When GPIO is HIGH (3.3V):
+3.3V ----LED---- 3.3V (GPIO)
+Both sides are at the same voltage → no difference → no current flows → LED OFF
+
+When GPIO is LOW (0V):
+3.3V ----LED---- 0V (GPIO)
+Different voltages → current flows from 3.3V through the LED down to 0V → LED ON
+
+I wasnt really understanding how it is all coming together, so I asked AI to do a power chain map : 
+
+USB (5V)
+   ↓
+Voltage Regulator
+   ↓
+3.3V → powers everything including:
+         ├── The 3.3V supply pin (for your circuit)
+         └── The GPIO pins (so when HIGH, they output 3.3V)
+
+Chapter 0 Finished !
+
+Onto Chapter 1 : LED 
+
+LED is a diode meaning current can only flow through it one way ( one way street )
+It has two pins : + ( Anode - Longer Pin - connects 3.3V ) & - Cathode ( Shorter Pin - Ground ( GND ) )  ).
+It has a voltage range 1.9V to 3.4V - 3.3V is safe .
+
+WHY A RESISTOR MUST BE USED ! too much current rushes through LED and destroys it ! An analogy can be like Voltage is the Water pressure but the Current is the Water Flow Rate.
+
+<img width="624" height="199" alt="image" src="https://github.com/user-attachments/assets/21891a7d-b5ae-4d9c-85c2-b2957df17f76" />
+
+A resistor is a passive component that limits the current flow in a circuit. It just resists ( doesnt generate or store anything ) . Those colored stripes on the physical resistor are a code that tells you its resistance value in Ohms. For example a 330Ω resistor has specific color bands
+
+OHM'S LAW : 
+I = V / R
+Current = Voltage ÷ Resistance.
+
+Keep in mind that :
+
+If voltage is fixed (3.3V always), then:
+More resistance → less current → dimmer LED
+Less resistance → more current → brighter LED (but risk of burnout)
+
+<img width="436" height="193" alt="image" src="https://github.com/user-attachments/assets/63323d96-0365-457d-9673-9afec8a21537" />
+
+The ESP32-WROVER needs 5V to operate. It gets it from the USB cable.
+
+Never let + and - touch each other without something in between (a resistor, LED, sensor etc.) 
+
+Normal:
+3.3V → Resistor → LED → GND
+(resistance limits current = safe ✅)
+
+Short circuit:
+3.3V → GND directly (nothing in between)
+(no resistance = unlimited current = 💀)
+
+<img width="869" height="338" alt="image" src="https://github.com/user-attachments/assets/54720893-cfc2-4227-9b77-01bb707e238b" />
+
+
 
 
   
